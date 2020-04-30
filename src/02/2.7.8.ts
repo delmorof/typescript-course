@@ -5,7 +5,8 @@
 
 */
 
-export declare function keys<O>(o: O): Array<keyof O>
+export const keys = <O>(o: O): Array<keyof O> =>
+  Object.keys(o) as any
 
 // tests
 
@@ -23,3 +24,4 @@ const p: Person = {
 } as any
 
 assert.deepEqual(keys(p).sort(), ['age', 'name'])
+
