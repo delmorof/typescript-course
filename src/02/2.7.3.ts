@@ -13,7 +13,7 @@ export interface Foo {
   }
 }
 
-type TypeOfKeysOfBar = never
+type TypeOfKeysOfBar = keyof Foo['foo']['bar']
 
 // tests
 

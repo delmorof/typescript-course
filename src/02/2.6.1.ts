@@ -12,7 +12,13 @@ export interface Person {
   interests: Array<string>
 }
 
-type ReadonlyPerson = Person
+interface ReadonlyPerson {
+  readonly name: {
+    readonly first: string
+    readonly last: string
+  }
+  readonly interests: ReadonlyArray<string>
+}
 
 // tests
 

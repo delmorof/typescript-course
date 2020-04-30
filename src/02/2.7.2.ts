@@ -13,7 +13,7 @@ export interface Foo {
   }
 }
 
-type TypeOfBaz = never
+type TypeOfBaz = Foo["foo"]["bar"]["baz"]
 
 // tests
 

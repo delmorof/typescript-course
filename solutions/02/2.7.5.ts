@@ -33,6 +33,7 @@ const meter2Km = new Iso<number, number>(
   a => a * 1000
 )
 
+
 assert.strictEqual(meter2Km.get(1200), 1.2)
 assert.strictEqual(meter2Km.to(1200), 1.2)
 assert.strictEqual(meter2Km.unwrap(1200), 1.2)

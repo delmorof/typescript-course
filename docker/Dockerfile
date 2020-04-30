@@ -15,5 +15,5 @@ RUN chmod +x /home/node/install-zsh.sh \
 COPY --chown=node:node zsh/zsh-config.sh /home/node/.zshrc
 
 USER root
-RUN npm install -g typescript typings-checker
+RUN npm install -g typescript typings-checker ts-node
 USER node

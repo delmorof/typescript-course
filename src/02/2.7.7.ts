@@ -4,11 +4,19 @@
 
 */
 
+/*
 export declare function set(
   k: string,
   v: unknown,
   o: unknown
 ): unknown
+*/
+export declare function set<O, K extends keyof O, V>(
+  k: K,
+  v: O[K],
+  o: O
+): O
+
 
 // tests
 

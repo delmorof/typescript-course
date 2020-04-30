@@ -4,8 +4,14 @@
 
 */
 
-export const isArrayOfNumbers = (x: unknown): unknown => {
-  return false
+const isNumber = (x: unknown): x is number =>
+  typeof x === 'number'
+
+const isArray = (x: unknown): x is Array<unknown> =>
+  Array.isArray(x)
+
+export const isArrayOfNumbers = (x: unknown): x is Array<number> => {
+  return isArray(x) && x.every(v => isNumber(v))
 }
 
 // tests

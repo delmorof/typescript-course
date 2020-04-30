@@ -4,7 +4,11 @@
 
 */
 
-export declare function get(key: string, obj: unknown): unknown
+
+//export declare function get(key: string, obj: unknown): unknown
+
+// Soluzione
+export declare function get<O, K extends keyof O>(key: K, obj: O): O[K]
 
 // tests
 
