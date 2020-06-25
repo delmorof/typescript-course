@@ -230,3 +230,111 @@ type Name = Person["name"]
 ```
 
 ## Mapped Types
+
+TypeScript fornisce un modo per creare nuovi tipi basati su tipi già definiti, i mapped types. La formula generale di un mapped type è la seguente
+
+```ts
+    {[K in U] : f (K)}
+```
+
+dove 
+
+- K è una variabile.
+- U è una unione
+- f è una funzione di K
+
+ad esempio:
+
+```ts
+type Keys = 'option1' | 'option2';
+type Flags = { [K in Keys]: boolean };
+/*
+    type Flags = {
+        option1: boolean;
+        option2: boolean;
+    }
+*/
+
+interface Person {
+    name: string;
+    age: number;
+}
+
+
+// Rende le proprietà di un tipo readoly
+type Readonly<T> = { readonly [P in keyof T]: T[P] }
+
+type PersonPartial = Partial<Person>; 
+/*
+    type PersonPartial = {
+        name?: string | undefined;
+        age?: number | undefined;
+    }
+*/
+
+// Rende le proprietà di un tipo opsionali
+type Partial<T> = { [P in keyof T]?: T[P] }
+
+// Rende le proprietà di un tipo obbligatorie
+type Required<T> = { [P in keyof T]-?: T[P] }
+
+type ReadonlyPerson = Readonly<Person>;
+/*
+    type ReadonlyPerson = {
+        readonly name: string;
+        readonly age: number;
+    }
+*/
+
+// Rende le proprietà di un tipo nullabele
+type Nullable<T> = { [P in keyof T]: T[P] | null }
+
+type Pick<T, K extends keyof T> = { [P in K]: T[P] }
+```
+Typescript mette a disposizione una serie di utility types per facilitare le trasformazioni più comuni. [Utility Types](https://www.typescriptlang.org/docs/handbook/utility-types.html#table-of-contents)
+
+## [Conditional Types](https://www.typescriptlang.org/docs/handbook/advanced-types.html#conditional-types)
+
+
+```ts
+    T extends U ? X : Y
+```
+
+Se T è assegnabile a U allora il tipo risultante è X, altrimenti è Y
+
+Esempio:
+
+```ts
+    /**
+    * Exclude from T those types that are assignable to U
+    */
+    type Exclude<T, U> = T extends U ? never : T;
+
+    // voglio una copia di ‘Person‘ tranne il campo ‘age‘
+    export interface Person {
+        firstName: string
+        lastName: string
+        age: number
+    }
+    type NotAge = Exclude<keyof Person, 'age'>    
+```
+
+### [Type inference in conditional types ](https://www.typescriptlang.org/docs/handbook/advanced-types.html#type-inference-in-conditional-types)
+Nell clausola extends di un conditional type è possibile utilizzare la key-word infer che introduce una type variable da far inferire al type checker.
+Queste type variable possono essere poi utilizzate nel ramo positivo del conditional type. 
+
+```ts
+    type Unpacked<T> =
+    T extends (infer U)[] ? U :
+    T extends (...args: any[]) => infer U ? U :
+    T extends Promise<infer U> ? U :
+    T;
+
+    type T0 = Unpacked<string>;  // string
+    type T1 = Unpacked<string[]>;  // string
+    type T2 = Unpacked<() => string>;  // string
+    type T3 = Unpacked<Promise<string>>;  // string
+    type T4 = Unpacked<Promise<string>[]>;  // Promise<string>
+    type T5 = Unpacked<Unpacked<Promise<string>[]>>;  // string
+```
+
